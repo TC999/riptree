@@ -1,3 +1,5 @@
+use crate::help;
+
 pub struct Args {
     pub show_hidden: bool,
     pub only_dirs: bool,
@@ -15,11 +17,11 @@ pub fn parse_args() -> Args {
     let mut prune = false;
     let mut lang = None;
     let mut path = None;
-    let mut show_help = false;
 
     for arg in args.iter().skip(1) {
         if arg == "--help" {
-            show_help = true;
+            help::print_help(&i18n);
+            std::process::exit(0);
         } else if arg == "-a" {
             show_hidden = true;
         } else if arg == "-d" {
@@ -40,18 +42,6 @@ pub fn parse_args() -> Args {
         }
     }
 
-    if show_help {
-        // 如果检测到 --help，仍然返回解析后的参数
-        return Args {
-            show_hidden,
-            only_dirs,
-            use_gitignore,
-            prune,
-            lang,
-            path: String::new(),
-        };
-    }
-
     Args {
         show_hidden,
         only_dirs,
@@ -61,3 +51,7 @@ pub fn parse_args() -> Args {
         path: path.unwrap_or_default(),
     }
 }
+
+//fn print_help() {
+//    println!("Usage: riptree [OPTIONS] [PATH]\n\nOptions:\n  --help          Show this help message\n  -a              Show hidden files\n  -d              Only show directories\n  --gitignore     Respect .gitignore files\n  --prune         Prune empty directories\n  --LANG=<lang>   Set the language (e.g., en-US, zh-CN)");
+//}

@@ -2,7 +2,7 @@ use crate::i18n::I18n;
 use fluent::FluentArgs;
 
 pub fn print_help(i18n: &I18n) {
-    let mut args = FluentArgs::new();
+    let args = FluentArgs::new();
     println!("{}", i18n.text("help-usage", Some(&args)));
 
     println!("------- {} -------", i18n.text("help-listing-options", None));

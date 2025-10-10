@@ -1,15 +1,15 @@
-// 是否显示隐藏文件
-static mut SHOW_HIDDEN: bool = false;
-static mut ONLY_DIRS: bool = false;
-static mut IGNORE_PATTERNS: Option<Vec<String>> = None;
-static mut PRUNE: bool = false;
-
 mod help;
 mod print;
 mod args;
 mod prune;
 mod i18n;
 mod ignore;
+
+// 是否显示隐藏文件
+static mut SHOW_HIDDEN: bool = false;
+static mut ONLY_DIRS: bool = false;
+static mut IGNORE_PATTERNS: Option<Vec<String>> = None;
+static mut PRUNE: bool = false;
 
 fn main() {
     let args = args::parse_args();
