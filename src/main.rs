@@ -9,6 +9,7 @@ mod print;
 mod args;
 mod prune;
 mod i18n;
+mod ignore;
 
 fn main() {
     let args = args::parse_args();
@@ -19,27 +20,16 @@ fn main() {
         return;
     }
     // 读取 .gitignore
-    let mut ignore_patterns = Vec::new();
-    if args.use_gitignore {
-        let gitignore_path = std::path::Path::new(&args.path).join(".gitignore");
-        if let Ok(content) = std::fs::read_to_string(&gitignore_path) {
-            for line in content.lines() {
-                let line = line.trim();
-                if !line.is_empty() && !line.starts_with('#') {
-                    ignore_patterns.push(line.to_string());
-                }
-            }
-        }
-    }
+    let ignore_patterns = if args.use_gitignore {
+        ignore::read_gitignore(&args.path)
+    } else {
+        None
+    };
     unsafe {
         SHOW_HIDDEN = args.show_hidden;
         ONLY_DIRS = args.only_dirs;
         PRUNE = args.prune;
-        if !ignore_patterns.is_empty() {
-            IGNORE_PATTERNS = Some(ignore_patterns);
-        } else {
-            IGNORE_PATTERNS = None;
-        }
+        IGNORE_PATTERNS = ignore_patterns;
     }
     let root = std::path::Path::new(&args.path);
     println!("{}", root.display());
