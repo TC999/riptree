@@ -13,7 +13,13 @@ pub fn print_tree(path: &Path, prefix: String, i18n: &I18n) {
     let mut args = FluentArgs::new();
     args.set("total_dirs", total_dirs);
     args.set("total_files", total_files);
-    println!("{}", i18n.text("stats-all", Some(&args)));
+    unsafe {
+        if ONLY_DIRS {
+            println!("{}", i18n.text("stats-only-dirs", Some(&args)));
+        } else {
+            println!("{}", i18n.text("stats-all", Some(&args)));
+        }
+    }
 }
 
 fn print_tree_count(

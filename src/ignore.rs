@@ -4,7 +4,7 @@ use std::path::PathBuf;
 
 pub struct IgnoreFile {
     pub remove: Vec<String>,
-    pub reverse: Vec<String>,
+    //pub reverse: Vec<String>,
 }
 
 pub fn read_gitignore(path: &str) -> Option<IgnoreFile> {
@@ -43,7 +43,7 @@ pub fn read_gitignore(path: &str) -> Option<IgnoreFile> {
     } else {
         Some(IgnoreFile {
             remove: remove_patterns,
-            reverse: reverse_patterns,
+            //reverse: reverse_patterns,
         })
     }
 }
