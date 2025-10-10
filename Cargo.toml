@@ -4,3 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+fluent = "0.17.0"
+fluent-bundle = "0.16.0"
+unic-langid = "0.9"

@@ -1,22 +1,28 @@
 use std::fs;
 use std::path::Path;
+use fluent::FluentArgs;
 use crate::{SHOW_HIDDEN, ONLY_DIRS, IGNORE_PATTERNS, PRUNE};
 use crate::prune::is_dir_pruned;
+use crate::i18n::I18n; // 新增：引入 i18n 模块
 
-pub fn print_tree(path: &Path, prefix: String) {
+pub fn print_tree(path: &Path, prefix: String, i18n: &I18n) {
     let mut total_dirs = 0;
     let mut total_files = 0;
-    print_tree_count(path, prefix, &mut total_dirs, &mut total_files);
-    // 输出统计信息，格式与原版 tree 保持一致
-    println!("");
-    if unsafe { ONLY_DIRS } {
-        println!("{} director{}", total_dirs, if total_dirs == 1 { "y" } else { "ies" });
-    } else {
-        println!("{} director{}, {} file{}", total_dirs, if total_dirs == 1 { "y" } else { "ies" }, total_files, if total_files == 1 { "" } else { "s" });
-    }
+    print_tree_count(path, prefix, &mut total_dirs, &mut total_files, i18n);
+    // 输出统计信息，使用 Fluent 国际化
+    let mut args = FluentArgs::new();
+    args.set("total_dirs", total_dirs);
+    args.set("total_files", total_files);
+    println!("{}", i18n.text("stats-all", Some(&args)));
 }
 
-fn print_tree_count(path: &Path, prefix: String, total_dirs: &mut usize, total_files: &mut usize) {
+fn print_tree_count(
+    path: &Path,
+    prefix: String,
+    total_dirs: &mut usize,
+    total_files: &mut usize,
+    i18n: &I18n,
+) {
     if let Ok(entries) = fs::read_dir(path) {
         let mut entries: Vec<_> = entries.filter_map(Result::ok).collect();
         // 过滤隐藏文件
@@ -84,6 +90,7 @@ fn print_tree_count(path: &Path, prefix: String, total_dirs: &mut usize, total_f
         for (i, entry) in entries.into_iter().enumerate() {
             let file_name = entry.file_name().into_string().unwrap_or_default();
             let is_last = i == len - 1;
+            // 连接符直接用原始字符串，不做国际化
             let connector = if is_last { "└── " } else { "├── " };
             println!("{}{}{}", prefix, connector, file_name);
 
@@ -95,7 +102,7 @@ fn print_tree_count(path: &Path, prefix: String, total_dirs: &mut usize, total_f
 
             if entry.path().is_dir() {
                 *total_dirs += 1;
-                print_tree_count(&entry.path(), new_prefix, total_dirs, total_files);
+                print_tree_count(&entry.path(), new_prefix, total_dirs, total_files, i18n);
             } else {
                 *total_files += 1;
             }

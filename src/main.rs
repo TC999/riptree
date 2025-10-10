@@ -8,13 +8,15 @@ mod help;
 mod print;
 mod args;
 mod prune;
+mod i18n;
 
 fn main() {
     let args = args::parse_args();
-    if args.path.is_empty() {
-        println!("{}", help::HELP_TEXT);
-        return;
-    }
+    let i18n = i18n::I18n::new("en_US");
+    //if args.path.is_empty() {
+    //    println!("{}", i18n.text("help-text", None));
+    //    return;
+    //}
     // 读取 .gitignore
     let mut ignore_patterns = Vec::new();
     if args.use_gitignore {
@@ -40,5 +42,5 @@ fn main() {
     }
     let root = std::path::Path::new(&args.path);
     println!("{}", root.display());
-    print::print_tree(root, String::new());
+    print::print_tree(root, String::new(), &i18n);
 }
