@@ -1,6 +1,8 @@
+# 文件（夹）计数器
 stats-only-dirs = { $total_dirs } 个目录
 stats-all = { $total_dirs } 个目录, { $total_files } 个文件
 
+# 帮助页面
 help-usage = 用法：rt [-acdfghilnpqrstuvxACDFJQNSUX] [-L level [-R]] [-H baseHREF]
     | [-T title] [-o filename] [-P pattern] [-I pattern] [--gitignore]
     | [--gitfile[=]file] [--matchdirs] [--metafirst] [--ignore-case]
@@ -8,7 +10,7 @@ help-usage = 用法：rt [-acdfghilnpqrstuvxACDFJQNSUX] [-L level [-R]] [-H base
     | [--sort[=]<name>] [--dirsfirst] [--filesfirst] [--filelimit #] [--si]
     | [--du] [--prune] [--charset[=]X] [--timefmt[=]format] [--fromfile]
     | [--fromtabfile] [--fflinks] [--info] [--infofile[=]file] [--noreport]
-    | [--version] [--help] [--] [directory ...]
+    | [--version] [--help] [--] [目录 ...]
 
 help-listing-options = 列表选项
 help-all-files = -a            列出所有文件。

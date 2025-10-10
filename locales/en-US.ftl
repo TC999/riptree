@@ -1,6 +1,8 @@
+# count:folder & file
 stats-only-dirs = { $total_dirs } director(ies)
 stats-all = { $total_dirs } director(ies), { $total_files } file(s)
 
+# help
 help-usage = usage: rt [-acdfghilnpqrstuvxACDFJQNSUX] [-L level [-R]] [-H baseHREF]
     | [-T title] [-o filename] [-P pattern] [-I pattern] [--gitignore]
     | [--gitfile[=]file] [--matchdirs] [--metafirst] [--ignore-case]
