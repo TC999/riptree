@@ -15,16 +15,22 @@ fn main() {
     let args = args::parse_args();
     let lang = args.lang.clone().unwrap_or_else(|| i18n::detect_lang());
     let i18n = i18n::I18n::new(&lang);
+
+    // 打印当前语言设置，便于调试
+    println!("当前语言: {}", lang);
+
     if args.path.is_empty() {
         help::print_help(&i18n);
         return;
     }
+
     // 读取 .gitignore
     let ignore_patterns = if args.use_gitignore {
         ignore::read_gitignore(&args.path).map(|ig| ig.remove)
     } else {
         None
     };
+
     unsafe {
         SHOW_HIDDEN = args.show_hidden;
         ONLY_DIRS = args.only_dirs;
