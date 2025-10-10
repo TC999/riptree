@@ -19,14 +19,16 @@ fn main() {
     // 打印当前语言设置，便于调试
     println!("当前语言: {}", lang);
 
-    if args.path.is_empty() {
-        help::print_help(&i18n);
-        return;
-    }
+    // 如果未指定路径，默认使用当前目录
+    let path = if args.path.is_empty() {
+        ".".to_string()
+    } else {
+        args.path.clone()
+    };
 
     // 读取 .gitignore
     let ignore_patterns = if args.use_gitignore {
-        ignore::read_gitignore(&args.path).map(|ig| ig.remove)
+        ignore::read_gitignore(&path).map(|ig| ig.remove)
     } else {
         None
     };
@@ -37,7 +39,7 @@ fn main() {
         PRUNE = args.prune;
         IGNORE_PATTERNS = ignore_patterns;
     }
-    let root = std::path::Path::new(&args.path);
+    let root = std::path::Path::new(&path);
     println!("{}", root.display());
     print::print_tree(root, String::new(), &i18n);
 }
