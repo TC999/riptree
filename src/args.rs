@@ -1,4 +1,5 @@
 use crate::help;
+use crate::i18n;
 
 pub struct Args {
     pub show_hidden: bool,
@@ -18,8 +19,13 @@ pub fn parse_args() -> Args {
     let mut lang = None;
     let mut path = None;
 
+    // 初始化 I18n 实例
+    let detected_lang = i18n::detect_lang();
+    let i18n = i18n::I18n::new(&detected_lang);
+
     for arg in args.iter().skip(1) {
         if arg == "--help" {
+            println!("当前语言: {:?}", detected_lang);
             help::print_help(&i18n);
             std::process::exit(0);
         } else if arg == "-a" {
