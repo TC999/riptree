@@ -29,18 +29,23 @@ git clone https://github.com/tc999/tree.git
 cd tree
 ```
 
-编译：
+### 编译：
 
 ```bash
 cargo build --release
 ```
 
-安装：
+### 安装：
+- Windows:
+  把 `target/release/rt.exe` 和 `target/release/locales` 目录复制到系统 PATH 中包含的目录下。
 
-Linux:
-```bash
-sudo cp target/release/riptree /usr/local/bin/tree
-```
+- Linux:
+
+  ```bash
+  sudo cp target/release/rt /usr/local/bin/rt
+  sudo cp -r target/release/locales /usr/local/bin/locales
+  ```
+
 ## 使用方法
 
 ```bash
@@ -53,7 +58,9 @@ rt [选项] [目录路径]
 - `-a` 显示所有文件（包括隐藏文件）
 - `-C` 强制彩色显示
 - `-P <模式>` 只显示匹配模式的文件
-- 更多参数请使用 `tree --help` 查看
+- `-d` 仅显示目录
+- `--LANG=<语言>` 设置输出语言
+- 更多参数请使用 `rt --help` 查看
 
 ## 致谢
 
