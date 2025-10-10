@@ -10,7 +10,7 @@ help-usage = usage: rt [-acdfghilnpqrstuvxACDFJQNSUX] [-L level [-R]] [-H baseHR
     | [--fromtabfile] [--fflinks] [--info] [--infofile[=]file] [--noreport]
     | [--version] [--help] [--] [directory ...]
 
-help-listing-options = ------- Listing options -------
+help-listing-options = Listing options
 help-all-files = -a            All files are listed.
 help-list-dirs-only = -d            List directories only.
 help-follow-symlinks = -l            Follow symbolic links like directories.
@@ -33,7 +33,7 @@ help-charset = --charset X    Use charset X for terminal/HTML and indentation li
 help-file-limit = --filelimit # Do not descend dirs with more than # files in them.
 help-output-file = -o filename   Output to file instead of stdout.
 
-help-file-options = ------- File options -------
+help-file-options = File options
 help-print-nonprintable = -q            Print non-printable characters as '?'.
 help-print-raw = -N            Print non-printable characters as is.
 help-quote-filenames = -Q            Quote filenames with double quotes.
@@ -50,7 +50,7 @@ help-append-ls = -F            Appends '/', '=', '*', '@', '|' or '>' as per ls 
 help-print-inodes = --inodes      Print inode number of each file.
 help-print-device = --device      Print device ID number to which each file belongs.
 
-help-sorting-options = ------- Sorting options -------
+help-sorting-options = Sorting options
 help-sort-version = -v            Sort files alphanumerically by version.
 help-sort-mtime = -t            Sort files by last modification time.
 help-sort-ctime = -c            Sort files by last status change time.
@@ -60,7 +60,7 @@ help-dirs-first = --dirsfirst   List directories before files (-U disables).
 help-files-first = --filesfirst  List files before directories (-U disables).
 help-select-sort = --sort X      Select sort: name,version,size,mtime,ctime.
 
-help-graphics-options = ------- Graphics options -------
+help-graphics-options = Graphics options
 help-no-indent = -i            Don't print indentation lines.
 help-ansi-lines = -A            Print ANSI lines graphic indentation lines.
 help-console-graphics = -S            Print with CP437 (console) graphics indentation lines.
@@ -68,7 +68,7 @@ help-no-color = -n            Turn colorization off always (-C overrides).
 help-force-color = -C            Turn colorization on always.
 help-set-lang = --LANG=X      Set output character set to LANG locale.
 
-help-xml-html-json = ------- XML/HTML/JSON options -------
+help-xml-html-json = XML/HTML/JSON options
 help-xml-output = -X            Prints out an XML representation of the tree.
 help-json-output = -J            Prints out an JSON representation of the tree.
 help-html-output = -H baseHREF   Prints out HTML format with baseHREF as top directory.
@@ -77,12 +77,12 @@ help-no-links = --nolinks     Turn off hyperlinks in HTML output.
 help-html-intro = --hintro X    Use file X as the HTML intro.
 help-html-outro = --houtro X    Use file X as the HTML outro.
 
-help-input-options = ------- Input options -------
+help-input-options = Input options
 help-read-from-file = --fromfile    Reads paths from files (.=stdin)
 help-read-from-tabfile = --fromtabfile Reads trees from tab indented files (.=stdin)
 help-process-links = --fflinks     Process link information when using --fromfile.
 
-help-misc-options = ------- Miscellaneous options -------
+help-misc-options = Miscellaneous options
 help-print-version = --version     Print version and exit.
 help-print-help = --help        Print usage and this help message and exit.
 help-options-terminator = --            Options processing terminator.
