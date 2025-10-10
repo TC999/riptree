@@ -17,7 +17,7 @@ fn main() {
     let i18n = i18n::I18n::new(&lang);
 
     // 打印当前语言设置，便于调试
-    println!("当前语言: {}", lang);
+    //println!("当前语言: {}", lang);
 
     // 如果未指定路径，默认使用当前目录
     let path = if args.path.is_empty() {
