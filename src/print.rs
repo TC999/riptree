@@ -1,6 +1,6 @@
 use std::fs;
 use std::path::Path;
-use crate::SHOW_HIDDEN;
+use crate::{SHOW_HIDDEN, ONLY_DIRS};
 
 pub fn print_tree(path: &Path, prefix: String) {
     if let Ok(entries) = fs::read_dir(path) {
@@ -17,6 +17,12 @@ pub fn print_tree(path: &Path, prefix: String) {
                             true
                         }
                     })
+                    .collect();
+            }
+            if ONLY_DIRS {
+                entries = entries
+                    .into_iter()
+                    .filter(|e| e.path().is_dir())
                     .collect();
             }
         }
