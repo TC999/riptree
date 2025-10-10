@@ -16,7 +16,7 @@ fn main() {
     let lang = args.lang.clone().unwrap_or_else(|| i18n::detect_lang());
     let i18n = i18n::I18n::new(&lang);
     if args.path.is_empty() {
-        println!("{}", help::HELP_TEXT);
+        help::print_help();
         return;
     }
     // 读取 .gitignore
