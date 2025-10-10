@@ -46,7 +46,7 @@ jobs:
     - name: 上传
       uses: actions/upload-artifact@v4.6.2
       with:
-        name: rt-linux
+        name: rt-windows
         path: |
           target/release/rt.exe
           target/release/locales
