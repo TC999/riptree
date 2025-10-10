@@ -1,6 +1,6 @@
 use std::fs;
 use std::io::BufRead;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 pub struct IgnoreFile {
     pub remove: Vec<String>,
@@ -12,7 +12,7 @@ pub fn read_gitignore(path: &str) -> Option<IgnoreFile> {
     let mut remove_patterns = Vec::new();
     let mut reverse_patterns = Vec::new();
 
-    while current_path != Path::new("/") {
+    while current_path.parent().is_some() {
         let gitignore_path = current_path.join(".gitignore");
         if let Ok(file) = fs::File::open(&gitignore_path) {
             let reader = std::io::BufReader::new(file);
@@ -28,7 +28,10 @@ pub fn read_gitignore(path: &str) -> Option<IgnoreFile> {
                 }
             }
         }
-        current_path.pop();
+        // 如果已经到达根目录，停止递归
+        if !current_path.pop() {
+            break;
+        }
     }
 
     if remove_patterns.is_empty() && reverse_patterns.is_empty() {
