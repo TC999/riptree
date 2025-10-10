@@ -102,6 +102,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "riptree"
+version = "0.1.0"
+dependencies = [
+ "fluent",
+ "fluent-bundle",
+ "unic-langid",
+]
+
+[[package]]
 name = "rustc-hash"
 version = "2.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -158,15 +167,6 @@ checksum = "5d4f6d1145dcb577acf783d4e601bc1d76a13337bb54e6233add580b07344c8b"
 dependencies = [
  "displaydoc",
  "zerovec",
-]
-
-[[package]]
-name = "tree"
-version = "0.1.0"
-dependencies = [
- "fluent",
- "fluent-bundle",
- "unic-langid",
 ]
 
 [[package]]
