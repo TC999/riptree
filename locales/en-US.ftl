@@ -1,7 +1,14 @@
 stats-only-dirs = { $total_dirs } director(ies)
 stats-all = { $total_dirs } director(ies), { $total_files } file(s)
 
-help-usage = usage: rt [-acdfghilnpqrstuvxACDFJQNSUX] [-L level [-R]] [-H baseHREF] [-T title] [-o filename] [-P pattern] [-I pattern] [--gitignore] [--gitfile[=]file] [--matchdirs] [--metafirst] [--ignore-case] [--nolinks] [--hintro[=]file] [--houtro[=]file] [--inodes] [--device] [--sort[=]<name>] [--dirsfirst] [--filesfirst] [--filelimit #] [--si] [--du] [--prune] [--charset[=]X] [--timefmt[=]format] [--fromfile] [--fromtabfile] [--fflinks] [--info] [--infofile[=]file] [--noreport] [--version] [--help] [--] [directory ...]
+help-usage = usage: rt [-acdfghilnpqrstuvxACDFJQNSUX] [-L level [-R]] [-H baseHREF]
+  [-T title] [-o filename] [-P pattern] [-I pattern] [--gitignore]
+  [--gitfile[=]file] [--matchdirs] [--metafirst] [--ignore-case]
+  [--nolinks] [--hintro[=]file] [--houtro[=]file] [--inodes] [--device]
+  [--sort[=]<name>] [--dirsfirst] [--filesfirst] [--filelimit #] [--si]
+  [--du] [--prune] [--charset[=]X] [--timefmt[=]format] [--fromfile]
+  [--fromtabfile] [--fflinks] [--info] [--infofile[=]file] [--noreport]
+  [--version] [--help] [--] [directory ...]
 
 help-listing-options = ------- Listing options -------
 help-all-files = -a            All files are listed.
