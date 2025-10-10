@@ -25,7 +25,7 @@ pub fn parse_args() -> Args {
 
     for arg in args.iter().skip(1) {
         if arg == "--help" {
-            println!("当前语言: {:?}", detected_lang);
+            //println!("当前语言: {:?}", detected_lang);
             help::print_help(&i18n);
             std::process::exit(0);
         } else if arg == "-a" {
