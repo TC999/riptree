@@ -27,19 +27,25 @@ pub fn parse_args() -> Args {
     let mut lang = None;
     let mut path = None;
     for arg in args.iter().skip(1) {
-        if arg == "-a" {
-            show_hidden = true;
-        } else if arg == "-d" {
-            only_dirs = true;
-        } else if arg == "--gitignore" {
-            use_gitignore = true;
-        } else if arg == "--prune" {
-            prune = true;
-        } else if arg.starts_with("--LANG=") {
-            lang = Some(arg[7..].to_string());
-        } else if !arg.starts_with('-') && path.is_none() {
-            path = Some(arg.clone());
-        }
+            if arg == "-a" {
+                show_hidden = true;
+            } else if arg == "-d" {
+                only_dirs = true;
+            } else if arg == "--gitignore" {
+                use_gitignore = true;
+            } else if arg == "--prune" {
+                prune = true;
+            } else if arg.starts_with("--LANG=") {
+                let mut l = arg[7..].to_string();
+                // 替换下划线为中横线，去除编码部分
+                if let Some(dot_pos) = l.find('.') {
+                    l = l[..dot_pos].to_string();
+                }
+                l = l.replace('_', "-");
+                lang = Some(l);
+            } else if !arg.starts_with('-') && path.is_none() {
+                path = Some(arg.clone());
+            }
     }
     Args {
         show_hidden,
