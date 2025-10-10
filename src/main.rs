@@ -52,11 +52,20 @@ fn main() {
         println!("{}", help::HELP_TEXT);
         return;
     }
-    // 检查是否有 -a 参数
-    unsafe {
-        SHOW_HIDDEN = args.iter().any(|a| a == "-a");
+    // 解析参数，支持 tree -a 和 tree . -a
+    let mut show_hidden = false;
+    let mut path = None;
+    for arg in args.iter().skip(1) {
+        if arg == "-a" {
+            show_hidden = true;
+        } else if !arg.starts_with('-') && path.is_none() {
+            path = Some(arg.clone());
+        }
     }
-    let path = args.get(1).cloned().unwrap_or_else(|| ".".to_string());
+    unsafe {
+        SHOW_HIDDEN = show_hidden;
+    }
+    let path = path.unwrap_or_else(|| ".".to_string());
     let root = std::path::Path::new(&path);
     println!("{}", root.display());
     print_tree(root, String::new());
