@@ -2,7 +2,7 @@ stats-only-dirs = { $total_dirs } 个目录
 stats-all = { $total_dirs } 个目录, { $total_files } 个文件
 
 help-usage = 用法：rt [-acdfghilnpqrstuvxACDFJQNSUX] [-L level [-R]] [-H baseHREF] [-T title] [-o filename] [-P pattern] [-I pattern] [--gitignore] [--gitfile[=]file] [--matchdirs] [--metafirst] [--ignore-case] [--nolinks] [--hintro[=]file] [--houtro[=]file] [--inodes] [--device] [--sort[=]<name>] [--dirsfirst] [--filesfirst] [--filelimit #] [--si] [--du] [--prune] [--charset[=]X] [--timefmt[=]format] [--fromfile] [--fromtabfile] [--fflinks] [--info] [--infofile[=]file] [--noreport] [--version] [--help] [--] [directory ...]
-help-listing-options = ------- 列表选项 -------
+help-listing-options = 列表选项
 help-all-files = -a 列出所有文件。
 help-list-dirs-only = -d 仅列出目录。
 help-follow-symlinks = -l 将符号链接视为目录。
