@@ -7,3 +7,7 @@ edition = "2021"
 fluent = "0.17.0"
 fluent-bundle = "0.16.0"
 unic-langid = "0.9"
+
+[[bin]]
+name = "rt"
+path = "src/main.rs"

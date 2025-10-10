@@ -1,4 +1,4 @@
-# Rust Tree
+# Rust Tree（RT）
 
 > 原版 `tree` 项目地址：[https://github.com/Old-Man-Programmer/tree](https://github.com/Old-Man-Programmer/tree)
 
@@ -35,10 +35,16 @@ cd tree
 cargo build --release
 ```
 
+安装：
+
+Linux:
+```bash
+sudo cp target/release/riptree /usr/local/bin/tree
+```
 ## 使用方法
 
 ```bash
-riptree [选项] [目录路径]
+rt [选项] [目录路径]
 ```
 
 常用参数举例：
