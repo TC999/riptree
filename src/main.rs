@@ -1,6 +1,9 @@
 use std::fs;
 use std::path::Path;
 
+mod help;
+
+
 fn print_tree(path: &Path, prefix: String) {
     if let Ok(entries) = fs::read_dir(path) {
         let mut entries: Vec<_> = entries.filter_map(Result::ok).collect();
@@ -27,8 +30,12 @@ fn print_tree(path: &Path, prefix: String) {
 }
 
 fn main() {
-    let path = std::env::args().nth(1).unwrap_or_else(|| ".".to_string());
-    let root = Path::new(&path);
+    let args: Vec<String> = std::env::args().collect();
+    if args.iter().any(|a| a == "--help") {
+        println!("{}", help::HELP_TEXT);
+        return;
+    }
+    let path = args.get(1).cloned().unwrap_or_else(|| ".".to_string());
+    let root = std::path::Path::new(&path);
     println!("{}", root.display());
-    print_tree(root, String::new());
-}
+    print_tree(root, String::new());}
