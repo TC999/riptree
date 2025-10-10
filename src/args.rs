@@ -62,6 +62,33 @@ pub fn parse_args() -> Args {
     }
 }
 
-//fn print_help() {
-//    println!("Usage: riptree [OPTIONS] [PATH]\n\nOptions:\n  --help          Show this help message\n  -a              Show hidden files\n  -d              Only show directories\n  --gitignore     Respect .gitignore files\n  --prune         Prune empty directories\n  --LANG=<lang>   Set the language (e.g., en-US, zh-CN)");
-//}
+pub struct InitData {
+    pub lang: String,
+    pub ignore_patterns: Option<Vec<String>>,
+}
+
+pub fn initialize() -> (Args, InitData) {
+    let mut args = parse_args();
+
+    // 如果未指定路径，默认使用当前目录
+    if args.path.is_empty() {
+        args.path = ".".to_string();
+    }
+
+    let lang = args.lang.clone().unwrap_or_else(|| i18n::detect_lang());
+
+    // 读取 .gitignore
+    let ignore_patterns = if args.use_gitignore {
+        crate::ignore::read_gitignore(&args.path).map(|ig| ig.remove)
+    } else {
+        None
+    };
+
+    (
+        args,
+        InitData {
+            lang,
+            ignore_patterns,
+        },
+    )
+}

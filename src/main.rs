@@ -12,34 +12,17 @@ static mut IGNORE_PATTERNS: Option<Vec<String>> = None;
 static mut PRUNE: bool = false;
 
 fn main() {
-    let args = args::parse_args();
-    let lang = args.lang.clone().unwrap_or_else(|| i18n::detect_lang());
-    let i18n = i18n::I18n::new(&lang);
-
-    // 打印当前语言设置，便于调试
-    //println!("当前语言: {}", lang);
-
-    // 如果未指定路径，默认使用当前目录
-    let path = if args.path.is_empty() {
-        ".".to_string()
-    } else {
-        args.path.clone()
-    };
-
-    // 读取 .gitignore
-    let ignore_patterns = if args.use_gitignore {
-        ignore::read_gitignore(&path).map(|ig| ig.remove)
-    } else {
-        None
-    };
+    let (args, init_data) = args::initialize();
+    let i18n = i18n::I18n::new(&init_data.lang);
 
     unsafe {
         SHOW_HIDDEN = args.show_hidden;
         ONLY_DIRS = args.only_dirs;
         PRUNE = args.prune;
-        IGNORE_PATTERNS = ignore_patterns;
+        IGNORE_PATTERNS = init_data.ignore_patterns;
     }
-    let root = std::path::Path::new(&path);
+
+    let root = std::path::Path::new(&args.path);
     println!("{}", root.display());
     print::print_tree(root, String::new(), &i18n);
 }
