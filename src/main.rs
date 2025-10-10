@@ -21,7 +21,7 @@ fn main() {
     }
     // 读取 .gitignore
     let ignore_patterns = if args.use_gitignore {
-        ignore::read_gitignore(&args.path)
+        ignore::read_gitignore(&args.path).map(|ig| ig.remove)
     } else {
         None
     };
