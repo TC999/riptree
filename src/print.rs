@@ -1,6 +1,6 @@
 use std::fs;
 use std::path::Path;
-use crate::{SHOW_HIDDEN, ONLY_DIRS};
+use crate::{SHOW_HIDDEN, ONLY_DIRS, IGNORE_PATTERNS};
 
 pub fn print_tree(path: &Path, prefix: String) {
     if let Ok(entries) = fs::read_dir(path) {
@@ -23,6 +23,32 @@ pub fn print_tree(path: &Path, prefix: String) {
                 entries = entries
                     .into_iter()
                     .filter(|e| e.path().is_dir())
+                    .collect();
+            }
+            if IGNORE_PATTERNS.is_some() {
+                let patterns = IGNORE_PATTERNS.as_ref().unwrap();
+                entries = entries
+                    .into_iter()
+                    .filter(|e| {
+                        let name = e.file_name();
+                        let name = name.to_string_lossy();
+                        // 只做简单的后缀/前缀/全名匹配
+                        !patterns.iter().any(|pat| {
+                            if pat.ends_with('/') {
+                                // 文件夹名匹配
+                                pat.trim_end_matches('/') == name
+                            } else if pat.starts_with("*") {
+                                // 后缀匹配
+                                name.ends_with(&pat[1..])
+                            } else if pat.ends_with("*") {
+                                // 前缀匹配
+                                name.starts_with(&pat[..pat.len()-1])
+                            } else {
+                                // 全名匹配
+                                pat == &name
+                            }
+                        })
+                    })
                     .collect();
             }
         }

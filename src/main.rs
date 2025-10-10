@@ -1,35 +1,41 @@
 // 是否显示隐藏文件
 static mut SHOW_HIDDEN: bool = false;
 static mut ONLY_DIRS: bool = false;
+static mut IGNORE_PATTERNS: Option<Vec<String>> = None;
 
 mod help;
 mod print;
+mod args;
 
 fn main() {
-    let args: Vec<String> = std::env::args().collect();
-    if args.iter().any(|a| a == "--help") {
+    let args = args::parse_args();
+    if args.path.is_empty() {
         println!("{}", help::HELP_TEXT);
         return;
     }
-    // 解析参数，支持 tree -a 和 tree . -a
-    let mut show_hidden = false;
-    let mut only_dirs = false;
-    let mut path = None;
-    for arg in args.iter().skip(1) {
-        if arg == "-a" {
-            show_hidden = true;
-        } else if arg == "-d" {
-            only_dirs = true;
-        } else if !arg.starts_with('-') && path.is_none() {
-            path = Some(arg.clone());
+    // 读取 .gitignore
+    let mut ignore_patterns = Vec::new();
+    if args.use_gitignore {
+        let gitignore_path = std::path::Path::new(&args.path).join(".gitignore");
+        if let Ok(content) = std::fs::read_to_string(&gitignore_path) {
+            for line in content.lines() {
+                let line = line.trim();
+                if !line.is_empty() && !line.starts_with('#') {
+                    ignore_patterns.push(line.to_string());
+                }
+            }
         }
     }
     unsafe {
-        SHOW_HIDDEN = show_hidden;
-        ONLY_DIRS = only_dirs;
+        SHOW_HIDDEN = args.show_hidden;
+        ONLY_DIRS = args.only_dirs;
+        if !ignore_patterns.is_empty() {
+            IGNORE_PATTERNS = Some(ignore_patterns);
+        } else {
+            IGNORE_PATTERNS = None;
+        }
     }
-    let path = path.unwrap_or_else(|| ".".to_string());
-    let root = std::path::Path::new(&path);
+    let root = std::path::Path::new(&args.path);
     println!("{}", root.display());
     print::print_tree(root, String::new());
 }
