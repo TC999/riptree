@@ -3,6 +3,19 @@ use std::path::Path;
 use crate::{SHOW_HIDDEN, ONLY_DIRS, IGNORE_PATTERNS};
 
 pub fn print_tree(path: &Path, prefix: String) {
+    let mut total_dirs = 0;
+    let mut total_files = 0;
+    print_tree_count(path, prefix, &mut total_dirs, &mut total_files);
+    // 输出统计信息，格式与原版 tree 保持一致
+    println!("");
+    if unsafe { ONLY_DIRS } {
+        println!("{} director{}", total_dirs, if total_dirs == 1 { "y" } else { "ies" });
+    } else {
+        println!("{} director{}, {} file{}", total_dirs, if total_dirs == 1 { "y" } else { "ies" }, total_files, if total_files == 1 { "" } else { "s" });
+    }
+}
+
+fn print_tree_count(path: &Path, prefix: String, total_dirs: &mut usize, total_files: &mut usize) {
     if let Ok(entries) = fs::read_dir(path) {
         let mut entries: Vec<_> = entries.filter_map(Result::ok).collect();
         // 过滤隐藏文件
@@ -68,7 +81,10 @@ pub fn print_tree(path: &Path, prefix: String) {
             };
 
             if entry.path().is_dir() {
-                print_tree(&entry.path(), new_prefix);
+                *total_dirs += 1;
+                print_tree_count(&entry.path(), new_prefix, total_dirs, total_files);
+            } else {
+                *total_files += 1;
             }
         }
     }
