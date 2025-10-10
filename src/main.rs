@@ -12,11 +12,12 @@ mod i18n;
 
 fn main() {
     let args = args::parse_args();
-    let i18n = i18n::I18n::new("en_US");
-    //if args.path.is_empty() {
-    //    println!("{}", i18n.text("help-text", None));
-    //    return;
-    //}
+    let lang = i18n::detect_lang(); // 自动检测系统语言
+    let i18n = i18n::I18n::new(&lang);
+    if args.path.is_empty() {
+        println!("{}", help::HELP_TEXT);
+        return;
+    }
     // 读取 .gitignore
     let mut ignore_patterns = Vec::new();
     if args.use_gitignore {
