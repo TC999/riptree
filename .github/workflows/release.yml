@@ -1,4 +1,4 @@
-name: CI
+name: 发行
 
 on:
   workflow_dispatch:
