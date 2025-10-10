@@ -62,11 +62,11 @@ jobs:
 
       - name: 重新压缩(Linux)
         run: |
-          cd rt-linux && zip -r "../../rt-linux.zip" .
+          cd rt-linux && zip -r "../rt-linux.zip" .
     
       - name: 重新压缩(Windows)
         run: |
-          cd rt-windows && zip -r "../../rt-windows.zip" .
+          cd rt-windows && zip -r "../rt-windows.zip" .
 
 
       - name: 自动发布发行版
