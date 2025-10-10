@@ -2,10 +2,12 @@
 static mut SHOW_HIDDEN: bool = false;
 static mut ONLY_DIRS: bool = false;
 static mut IGNORE_PATTERNS: Option<Vec<String>> = None;
+static mut PRUNE: bool = false;
 
 mod help;
 mod print;
 mod args;
+mod prune;
 
 fn main() {
     let args = args::parse_args();
@@ -29,6 +31,7 @@ fn main() {
     unsafe {
         SHOW_HIDDEN = args.show_hidden;
         ONLY_DIRS = args.only_dirs;
+        PRUNE = args.prune;
         if !ignore_patterns.is_empty() {
             IGNORE_PATTERNS = Some(ignore_patterns);
         } else {

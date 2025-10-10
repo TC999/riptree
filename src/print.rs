@@ -1,6 +1,7 @@
 use std::fs;
 use std::path::Path;
-use crate::{SHOW_HIDDEN, ONLY_DIRS, IGNORE_PATTERNS};
+use crate::{SHOW_HIDDEN, ONLY_DIRS, IGNORE_PATTERNS, PRUNE};
+use crate::prune::is_dir_pruned;
 
 pub fn print_tree(path: &Path, prefix: String) {
     let mut total_dirs = 0;
@@ -61,6 +62,18 @@ fn print_tree_count(path: &Path, prefix: String, total_dirs: &mut usize, total_f
                                 pat == &name
                             }
                         })
+                    })
+                    .collect();
+            }
+            if PRUNE {
+                entries = entries
+                    .into_iter()
+                    .filter(|e| {
+                        if e.path().is_dir() {
+                            !is_dir_pruned(&e.path())
+                        } else {
+                            true
+                        }
                     })
                     .collect();
             }
