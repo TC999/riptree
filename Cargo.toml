@@ -11,3 +11,14 @@ unic-langid = "0.9"
 [[bin]]
 name = "rt"
 path = "src/main.rs"
+
+#[package.metadata.deb]
+#maintainer = "TC999 <你的邮箱>"
+#description = "Cross-platform Rust rewrite of the tree command"
+#depends = ""
+#section = "utils"
+#priority = "optional"
+#assets = [
+#    ["target/release/rt", "usr/bin/rt", "755"],
+#    ["locales/*.ftl", "usr/share/rt/locales/*.ftl", "644"]
+#]

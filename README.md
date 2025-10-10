@@ -37,19 +37,20 @@ cargo build --release
 
 ### 安装：
 - Windows:
-  把 `target/release/rt.exe` 和 `target/release/locales` 目录复制到系统 PATH 中包含的目录下。
+  把 `target/release/rt.exe` 和 `target/release/locales` 目录复制到系统 PATH 中包含的相同目录下。
 
 - Linux:
 
   ```bash
-  sudo cp target/release/rt /usr/local/bin/rt
-  sudo cp -r target/release/locales /usr/local/bin/locales
+  sudo cp target/release/rt /usr/share/rt
+  sudo cp -r target/release/locales /usr/share/rt/locales
+  sudo ln -s /usr/share/rt/rt /usr/local/bin/rt
   ```
 
 ## 使用方法
 
 ```bash
-rt [选项] [目录路径]
+rt [目录路径] [选项]
 ```
 
 常用参数举例：
