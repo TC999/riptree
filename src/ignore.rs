@@ -23,6 +23,10 @@ pub fn read_gitignore(path: &str) -> Option<IgnoreFile> {
                 }
                 if trimmed.starts_with('!') {
                     reverse_patterns.push(trimmed[1..].to_string());
+                } else if trimmed.starts_with('/') {
+                    // 处理以 / 开头的模式，表示从根目录开始匹配
+                    let absolute_pattern = current_path.join(&trimmed[1..]).to_string_lossy().to_string();
+                    remove_patterns.push(absolute_pattern);
                 } else {
                     remove_patterns.push(trimmed.to_string());
                 }
