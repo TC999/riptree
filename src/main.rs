@@ -12,7 +12,7 @@ mod i18n;
 
 fn main() {
     let args = args::parse_args();
-    let lang = i18n::detect_lang(); // 自动检测系统语言
+    let lang = args.lang.clone().unwrap_or_else(|| i18n::detect_lang());
     let i18n = i18n::I18n::new(&lang);
     if args.path.is_empty() {
         println!("{}", help::HELP_TEXT);

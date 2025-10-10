@@ -59,6 +59,7 @@ pub const HELP_TEXT: &str = r#"usage: tree [-acdfghilnpqrstuvxACDFJQNSUX] [-L le
   -S            Print with CP437 (console) graphics indentation lines.
   -n            Turn colorization off always (-C overrides).
   -C            Turn colorization on always.
+  --LANG=X      Set output character set to LANG locale.
   ------- XML/HTML/JSON options -------
   -X            Prints out an XML representation of the tree.
   -J            Prints out an JSON representation of the tree.
