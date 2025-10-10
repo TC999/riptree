@@ -1,4 +1,6 @@
 use std::fs;
+use std::env;
+use std::path::{PathBuf};
 use fluent_bundle::{FluentBundle, FluentResource, FluentArgs};
 use unic_langid::LanguageIdentifier;
 
@@ -6,13 +8,20 @@ pub struct I18n {
     bundle: FluentBundle<FluentResource>,
 }
 
+// 获取程序所在目录下的 locales 文件夹路径
+fn get_locales_dir() -> PathBuf {
+    let exe_path = env::current_exe().expect("无法获取可执行文件路径");
+    let exe_dir = exe_path.parent().expect("无法获取可执行文件所在目录");
+    exe_dir.join("locales")
+}
+
 impl I18n {
     pub fn new(lang: &str) -> Self {
         let langid: LanguageIdentifier = lang.parse().unwrap();
-        let path = format!("locales/{}.ftl", lang);
+        let path = get_locales_dir().join(format!("{}.ftl", lang));
         let source = fs::read_to_string(&path)
-            .unwrap_or_else(|_| panic!("语言文件未找到: {}", path));
-        let res = FluentResource::try_new(source).unwrap_or_else(|_| panic!("Fluent资源解析失败: {}", path));
+            .unwrap_or_else(|_| panic!("语言文件未找到: {:?}", path));
+        let res = FluentResource::try_new(source).unwrap_or_else(|_| panic!("Fluent资源解析失败: {:?}", path));
         let mut bundle = FluentBundle::new(vec![langid]);
         bundle.add_resource(res).expect("添加Fluent资源失败");
         Self { bundle }
@@ -25,8 +34,7 @@ impl I18n {
     }
 }
 
-use std::env;
-
+// 自动检测系统语言
 pub fn detect_lang() -> String {
     // 优先读取 LC_ALL，其次 LANG，最后默认为 en-US
     env::var("LC_ALL")
