@@ -1,4 +1,4 @@
-# Rust Tree（RT）
+# RipTree（RT）
 
 > 原版 `tree` 项目地址：[https://github.com/Old-Man-Programmer/tree](https://github.com/Old-Man-Programmer/tree)
 
@@ -25,8 +25,8 @@
 拉取项目代码：
 
 ```bash
-git clone https://github.com/tc999/tree.git
-cd tree
+git clone https://github.com/tc999/riptree.git
+cd riptree
 ```
 
 ### 编译：
@@ -36,7 +36,8 @@ cargo build --release
 ```
 
 ### 安装：
-- Windows:
+- Windows: 
+
   把 `target/release/rt.exe` 和 `target/release/locales` 目录复制到系统 PATH 中包含的相同目录下。
 
 - Linux:
