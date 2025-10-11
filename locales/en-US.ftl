@@ -88,3 +88,8 @@ help-misc-options = Miscellaneous options
 help-print-version = --version     Print version and exit.
 help-print-help = --help        Print usage and this help message and exit.
 help-options-terminator = --            Options processing terminator.
+
+# level
+level-missing = Missing argument to -L option
+level-must-1 = Value for -L option must be >= 1
+level-bad = Bad argument to -L option

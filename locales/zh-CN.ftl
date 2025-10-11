@@ -88,3 +88,8 @@ help-misc-options = 杂项选项
 help-print-version = --version     打印版本并退出。
 help-print-help = --help        打印使用方法和此帮助信息并退出。
 help-options-terminator = --            选项处理终止符。
+
+# level
+level-missing = -L 选项缺少参数
+level-must-1 = -L 选项的值必须 >= 1
+level-invalid = -L 选项参数无效

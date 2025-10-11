@@ -74,18 +74,18 @@ pub fn parse_args() -> Args {
         } else if arg.starts_with("-L=") {
             // 解析 -L=数字 参数，确保值大于等于 1
             if arg.len() == 3 {
-                eprintln!("Missing argument to -L option");
+                eprintln!("{}", i18n.text("level-missing", None));
                 std::process::exit(1);
             }
             if let Ok(level_str) = arg[3..].parse::<usize>() {
                 if level_str >= 1 {
                     level = Some(level_str);
                 } else {
-                    eprintln!("Value for -L option must be >= 1");
+                    eprintln!("{}", i18n.text("level-must-1", None));
                     std::process::exit(1);
                 }
             } else {
-                eprintln!("Invalid value for -L option");
+                eprintln!("{}", i18n.text("level-invalid", None));
                 std::process::exit(1);
             }
         } else if !arg.starts_with('-') && path.is_none() {
