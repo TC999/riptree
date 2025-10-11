@@ -47,6 +47,9 @@ pub fn parse_args() -> Args {
             use_gitignore = true;
         } else if arg == "--prune" {
             prune = true;
+        } else if arg == "--version" {
+            println!("RipTree v{}", env!("CARGO_PKG_VERSION"));
+            std::process::exit(0);
         } else if !arg.starts_with('-') && path.is_none() {
             path = Some(arg.clone());
         }
