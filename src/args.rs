@@ -23,10 +23,8 @@ pub fn parse_args() -> Args {
     for arg in args.iter().skip(1) {
         if arg.starts_with("--LANG=") {
             let mut l = arg[7..].to_string();
-            if let Some(dot_pos) = l.find('.') {
-                l = l[..dot_pos].to_string();
-            }
-            l = l.replace('_', "-");
+            // Normalize language code to lowercase and replace underscores with hyphens
+            l = l.to_lowercase().replace('_', "-");
 
             // Handle both short and full language codes, redirect to 'en-US' if no match
             let mut matching_locales: Vec<String> = std::fs::read_dir("locales")
@@ -34,7 +32,7 @@ pub fn parse_args() -> Args {
                 .filter_map(|entry| {
                     let entry = entry.unwrap();
                     let file_name = entry.file_name().into_string().unwrap();
-                    if file_name.starts_with(&l) {
+                    if file_name.to_lowercase().starts_with(&l) {
                         Some(file_name)
                     } else {
                         None

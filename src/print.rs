@@ -51,8 +51,8 @@ fn print_tree_count(
                     .filter(|e| e.path().is_dir())
                     .collect();
             }
-            if IGNORE_PATTERNS.is_some() {
-                let patterns = IGNORE_PATTERNS.as_ref().unwrap();
+            if IGNORE_PATTERNS.is_some() { // 注：此处警告暂时忽略
+                let patterns = IGNORE_PATTERNS.as_ref().unwrap(); // 注：此处警告暂时忽略
                 entries = entries
                     .into_iter()
                     .filter(|e| {

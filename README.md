@@ -49,9 +49,10 @@ sudo ln -s /usr/share/rt/rt /usr/local/bin/rt
 ```
 
 ## 使用方法
-
+Windows 如何设置默认显示语言：新建一个系统环境变量 `LANG`，值为 `zh-CN.UTF-8`。
+命令格式：
 ```bash
-rt [目录路径] [选项]
+rt [选项] [目录路径（可选）]
 ```
 
 常用参数举例：
