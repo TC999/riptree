@@ -71,17 +71,12 @@ pub fn parse_args() -> Args {
         } else if arg == "--version" {
             println!("RipTree v{}", env!("CARGO_PKG_VERSION"));
             std::process::exit(0);
-        } else if arg.starts_with("-L") {
-            // 解析 -L 参数
-            if arg.len() > 2 {
-                if let Ok(level_str) = arg[2..].parse::<usize>() {
-                    level = Some(level_str);
-                } else {
-                    eprintln!("Invalid value for -L option");
-                    std::process::exit(1);
-                }
+        } else if arg.starts_with("-L=") {
+            // 解析 -L=数字 参数
+            if let Ok(level_str) = arg[3..].parse::<usize>() {
+                level = Some(level_str);
             } else {
-                eprintln!("Missing value for -L option");
+                eprintln!("Invalid value for -L option");
                 std::process::exit(1);
             }
         } else if !arg.starts_with('-') && path.is_none() {
