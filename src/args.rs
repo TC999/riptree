@@ -72,9 +72,14 @@ pub fn parse_args() -> Args {
             println!("RipTree v{}", env!("CARGO_PKG_VERSION"));
             std::process::exit(0);
         } else if arg.starts_with("-L=") {
-            // 解析 -L=数字 参数
+            // 解析 -L=数字 参数，确保值大于等于 1
             if let Ok(level_str) = arg[3..].parse::<usize>() {
-                level = Some(level_str);
+                if level_str >= 1 {
+                    level = Some(level_str);
+                } else {
+                    eprintln!("rt: Invalid level, must be greater than 0.");
+                    std::process::exit(1);
+                }
             } else {
                 eprintln!("Invalid value for -L option");
                 std::process::exit(1);
