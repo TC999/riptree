@@ -18,7 +18,7 @@ help-list-dirs-only = -d            List directories only.
 help-follow-symlinks = -l            Follow symbolic links like directories.
 help-print-full-path = -f            Print the full path prefix for each file.
 help-stay-on-fs = -x            Stay on current filesystem only.
-help-descend-level = -L level      Descend only level directories deep.
+help-descend-level = -L=<level>      Descend only level directories deep.
 help-rerun-tree = -R            Rerun tree when max dir level reached.
 help-list-match-pattern = -P pattern    List only those files that match the pattern given.
 help-exclude-match-pattern = -I pattern    Do not list files that match the given pattern.
