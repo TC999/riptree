@@ -73,11 +73,15 @@ pub fn parse_args() -> Args {
             std::process::exit(0);
         } else if arg.starts_with("-L=") {
             // 解析 -L=数字 参数，确保值大于等于 1
+            if arg.len() == 3 {
+                eprintln!("Missing argument to -L option");
+                std::process::exit(1);
+            }
             if let Ok(level_str) = arg[3..].parse::<usize>() {
                 if level_str >= 1 {
                     level = Some(level_str);
                 } else {
-                    eprintln!("rt: Invalid level, must be greater than 0.");
+                    eprintln!("Value for -L option must be >= 1");
                     std::process::exit(1);
                 }
             } else {
