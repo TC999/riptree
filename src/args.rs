@@ -27,6 +27,27 @@ pub fn parse_args() -> Args {
                 l = l[..dot_pos].to_string();
             }
             l = l.replace('_', "-");
+
+            // If the language is a short code, find the first matching locale file
+            if l.len() == 2 {
+                let mut matching_locales: Vec<String> = std::fs::read_dir("locales")
+                    .unwrap()
+                    .filter_map(|entry| {
+                        let entry = entry.unwrap();
+                        let file_name = entry.file_name().into_string().unwrap();
+                        if file_name.starts_with(&l) {
+                            Some(file_name)
+                        } else {
+                            None
+                        }
+                    })
+                    .collect();
+                matching_locales.sort();
+                if let Some(first_locale) = matching_locales.first() {
+                    l = first_locale[..first_locale.find('.').unwrap_or(first_locale.len())].to_string();
+                }
+            }
+
             lang = Some(l);
         }
     }
