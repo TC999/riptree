@@ -8,6 +8,7 @@ pub struct Args {
     pub prune: bool,
     pub lang: Option<String>,
     pub path: String,
+    pub level: Option<usize>, // 添加 level 字段
 }
 
 pub fn parse_args() -> Args {
@@ -18,8 +19,8 @@ pub fn parse_args() -> Args {
     let mut prune = false;
     let mut lang = None;
     let mut path = None;
+    let mut level = None; // 初始化 level
 
-    // 提前解析 --LANG 参数
     for arg in args.iter().skip(1) {
         if arg.starts_with("--LANG=") {
             let mut l = arg[7..].to_string();
@@ -70,6 +71,14 @@ pub fn parse_args() -> Args {
         } else if arg == "--version" {
             println!("RipTree v{}", env!("CARGO_PKG_VERSION"));
             std::process::exit(0);
+        } else if arg.starts_with("-L") {
+            // 解析 -L 参数
+            if let Some(level_str) = arg[2..].parse::<usize>().ok() {
+                level = Some(level_str);
+            } else {
+                eprintln!("Invalid value for -L option");
+                std::process::exit(1);
+            }
         } else if !arg.starts_with('-') && path.is_none() {
             path = Some(arg.clone());
         }
@@ -82,6 +91,7 @@ pub fn parse_args() -> Args {
         prune,
         lang,
         path: path.unwrap_or_default(),
+        level, // 返回解析的 level
     }
 }
 

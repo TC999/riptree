@@ -24,5 +24,5 @@ fn main() {
 
     let root = std::path::Path::new(&args.path);
     println!("{}", root.display());
-    print::print_tree(root, String::new(), &i18n);
+    print::print_tree(root, String::new(), &i18n, args.level); // 传递 level 参数
 }

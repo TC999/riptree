@@ -5,10 +5,10 @@ use crate::{SHOW_HIDDEN, ONLY_DIRS, IGNORE_PATTERNS, PRUNE};
 use crate::prune::is_dir_pruned;
 use crate::i18n::I18n; // 新增：引入 i18n 模块
 
-pub fn print_tree(path: &Path, prefix: String, i18n: &I18n) {
+pub fn print_tree(path: &Path, prefix: String, i18n: &I18n, level: Option<usize>) {
     let mut total_dirs = 0;
     let mut total_files = 0;
-    print_tree_count(path, prefix, &mut total_dirs, &mut total_files, i18n);
+    print_tree_count(path, prefix, &mut total_dirs, &mut total_files, i18n, level, 0);
     // 输出统计信息，使用 Fluent 国际化
     let mut args = FluentArgs::new();
     args.set("total_dirs", total_dirs);
@@ -28,7 +28,15 @@ fn print_tree_count(
     total_dirs: &mut usize,
     total_files: &mut usize,
     i18n: &I18n,
+    level: Option<usize>,
+    current_level: usize,
 ) {
+    if let Some(max_level) = level {
+        if current_level >= max_level {
+            return;
+        }
+    }
+
     if let Ok(entries) = fs::read_dir(path) {
         let mut entries: Vec<_> = entries.filter_map(Result::ok).collect();
         // 过滤隐藏文件
@@ -108,7 +116,7 @@ fn print_tree_count(
 
             if entry.path().is_dir() {
                 *total_dirs += 1;
-                print_tree_count(&entry.path(), new_prefix, total_dirs, total_files, i18n);
+                print_tree_count(&entry.path(), new_prefix, total_dirs, total_files, i18n, level, current_level + 1);
             } else {
                 *total_files += 1;
             }
