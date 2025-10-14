@@ -6,6 +6,7 @@ pub struct Args {
     pub only_dirs: bool,
     pub use_gitignore: bool,
     pub prune: bool,
+    pub report: bool,
     pub lang: Option<String>,
     pub path: String,
     pub level: Option<usize>, // 添加 level 字段
@@ -17,6 +18,7 @@ pub fn parse_args() -> Args {
     let mut only_dirs = false;
     let mut use_gitignore = false;
     let mut prune = false;
+    let mut report = true;
     let mut lang = None;
     let mut path = None;
     let mut level = None; // 初始化 level
@@ -68,6 +70,8 @@ pub fn parse_args() -> Args {
             use_gitignore = true;
         } else if arg == "--prune" {
             prune = true;
+        } else if arg == "--noreport" {
+            report = false;
         } else if arg == "--version" {
             println!("RipTree v{}", env!("CARGO_PKG_VERSION"));
             std::process::exit(0);
@@ -98,6 +102,7 @@ pub fn parse_args() -> Args {
         only_dirs,
         use_gitignore,
         prune,
+        report,
         lang,
         path: path.unwrap_or_default(),
         level, // 返回解析的 level

@@ -10,6 +10,7 @@ static mut SHOW_HIDDEN: bool = false;
 static mut ONLY_DIRS: bool = false;
 static mut IGNORE_PATTERNS: Option<Vec<String>> = None;
 static mut PRUNE: bool = false;
+static mut REPORT: bool = true;
 
 fn main() {
     let (args, init_data) = args::initialize();
