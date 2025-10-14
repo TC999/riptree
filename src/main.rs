@@ -21,6 +21,7 @@ fn main() {
         ONLY_DIRS = args.only_dirs;
         PRUNE = args.prune;
         IGNORE_PATTERNS = init_data.ignore_patterns;
+        REPORT = args.report;
     }
 
     let root = std::path::Path::new(&args.path);
