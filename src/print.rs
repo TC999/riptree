@@ -1,7 +1,7 @@
 use std::fs;
 use std::path::Path;
 use fluent::FluentArgs;
-use crate::{SHOW_HIDDEN, ONLY_DIRS, IGNORE_PATTERNS, PRUNE, REPORT};
+use crate::{SHOW_HIDDEN, ONLY_DIRS, IGNORE_PATTERNS, PRUNE, REPORT, SHOW_BYTES};
 use crate::prune::is_dir_pruned;
 use crate::i18n::I18n; // 新增：引入 i18n 模块
 
@@ -108,7 +108,19 @@ fn print_tree_count(
             let is_last = i == len - 1;
             // 连接符直接用原始字符串，不做国际化
             let connector = if is_last { "└── " } else { "├── " };
-            println!("{}{}{}", prefix, connector, file_name);
+            unsafe {
+                if SHOW_BYTES && !entry.path().is_dir() {
+                    // 获取字节大小，读取元数据失败时使用 0
+                    let size: u64 = match entry.metadata() {
+                        Ok(m) => m.len(),
+                        Err(_) => 0,
+                    };
+                    // 固定宽度为 11 位（保持与示例一致），两位空格分隔
+                    println!("{}{}[{:>11}]  {}", prefix, connector, size, file_name);
+                } else {
+                    println!("{}{}{}", prefix, connector, file_name);
+                }
+            }
 
             let new_prefix = if is_last {
                 format!("{}    ", prefix)

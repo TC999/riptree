@@ -11,6 +11,7 @@ static mut ONLY_DIRS: bool = false;
 static mut IGNORE_PATTERNS: Option<Vec<String>> = None;
 static mut PRUNE: bool = false;
 static mut REPORT: bool = true;
+static mut SHOW_BYTES: bool = false; // 新增静态变量以控制是否显示文件大小
 
 fn main() {
     let (args, init_data) = args::initialize();
@@ -22,6 +23,7 @@ fn main() {
         PRUNE = args.prune;
         IGNORE_PATTERNS = init_data.ignore_patterns;
         REPORT = args.report;
+        SHOW_BYTES = args.show_bytes; // 赋值静态变量
     }
 
     let root = std::path::Path::new(&args.path);

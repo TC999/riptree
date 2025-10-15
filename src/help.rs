@@ -14,6 +14,9 @@ pub fn print_help(i18n: &I18n) {
         println!("{}", i18n.text("help-prune-empty-dirs", Some(&args)));
         println!("{}", i18n.text("help-no-report", Some(&args)));
 
+    println!("------- {} -------", i18n.text("help-file-options", None));
+        println!("{}", i18n.text("help-print-size", Some(&args)));
+
     println!("------- {} -------", i18n.text("help-graphics-options", Some(&args)));
         println!("{}", i18n.text("help-set-lang", Some(&args)));
 
