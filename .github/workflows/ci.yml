@@ -28,6 +28,13 @@ jobs:
     - uses: actions/checkout@v4
     - name: 编译
       run: cargo build --release
+
+    - name: 移动脚本
+      run: |
+        cp install.sh target/release/install.sh
+        cp uninstall.sh target/release/uninstall.sh
+        chmod +x target/release/install.sh
+        chmod +x target/release/uninstall.sh
     - name: 上传
       uses: actions/upload-artifact@v4.6.2
       with:
@@ -35,8 +42,8 @@ jobs:
         path: |
           target/release/rt
           target/release/locales
-          install.sh
-          uninstall.sh
+          target/release/install.sh
+          target/release/uninstall.sh
 
   ci-windows:
     runs-on: windows-latest
