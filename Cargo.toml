@@ -14,7 +14,6 @@ path = "src/main.rs"
 
 [package.metadata.deb]
 maintainer = "TC999 <88823709+TC999@users.noreply.github.com>"
-description = "Cross-platform Rust rewrite of the tree command (rt)"
 section = "utils"
 priority = "optional"
 depends = ""
