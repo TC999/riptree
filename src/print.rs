@@ -115,8 +115,8 @@ fn print_tree_count(
                         Err(_) => 0,
                     };
                     let human = human_readable(size);
-                    // 固定 4 宽度显示（如 " 805", "1.5K"）
-                    println!("{}{}[{:>4}]  {}", prefix, connector, human, file_name);
+                    // 固定 5 宽度显示（如 " 805", "1.5K"）
+                    println!("{}{}[{:>5}]  {}", prefix, connector, human, file_name);
                 } else if SHOW_BYTES && !entry.path().is_dir() {
                     // 获取字节大小，读取元数据失败时使用 0
                     let size: u64 = match entry.metadata() {
