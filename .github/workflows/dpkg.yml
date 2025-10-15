@@ -2,6 +2,9 @@ name: 打包 Debian 包
 
 on: [workflow_dispatch]
 
+env:
+  CARGO_TERM_COLOR: always
+
 jobs:
   build:
     name: 构建 Debian 包
