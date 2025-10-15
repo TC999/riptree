@@ -1,0 +1,7 @@
+#!/bin/sh
+set -e
+# 在卸载前移除软链（如果是指向 /opt/rt/rt 的话）
+if [ -L /usr/local/bin/rt ] ; then
+  rm -f /usr/local/bin/rt
+fi
+exit 0

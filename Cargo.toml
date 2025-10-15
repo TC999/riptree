@@ -12,13 +12,18 @@ unic-langid = "0.9"
 name = "rt"
 path = "src/main.rs"
 
-#[package.metadata.deb]
-#maintainer = "TC999 <你的邮箱>"
-#description = "Cross-platform Rust rewrite of the tree command"
-#depends = ""
-#section = "utils"
-#priority = "optional"
-#assets = [
-#    ["target/release/rt", "usr/bin/rt", "755"],
-#    ["locales/*.ftl", "usr/share/rt/locales/*.ftl", "644"]
-#]
+[package.metadata.deb]
+maintainer = "TC999 <88823709+TC999@users.noreply.github.com>"
+description = "Cross-platform Rust rewrite of the tree command (rt)"
+section = "utils"
+priority = "optional"
+depends = ""
+assets = [
+  # 把二进制和 locales 放到 /opt/rt
+  ["target/release/rt", "/opt/rt/rt", "0755"],
+  ["target/release/locales/*", "/opt/rt/locales/", "0644"],
+  # 可选：把 README 放到文档目录
+  ["README.md", "/usr/share/doc/riptree/README.md", "0644"],
+]
+# 指定安装/卸载脚本（会在包内包含这些脚本并在安装/卸载时执行）
+scripts = { postinst = "debian/postinst", prerm = "debian/prerm" }

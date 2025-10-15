@@ -1,0 +1,13 @@
+#!/bin/sh
+set -e
+
+# postinst: 创建 /usr/local/bin/rt 软链并设置权限
+# 注意：assets 已把文件放入 /opt/rt/rt
+if [ -d /opt/rt ] ; then
+  chmod 755 /opt/rt/rt || true
+fi
+
+# 创建或更新软链
+ln -sf /opt/rt/rt /usr/local/bin/rt
+
+exit 0
