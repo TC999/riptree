@@ -147,7 +147,7 @@ fn print_tree_count(
 }
 
 // human_readable: 将字节数转换为简短字符串，保留一位小数。返回值长度可能超过 4（如 "1024.0K"），
-// 但在打印处使用格式化限制宽度为 4 个字符（右对齐）。这里生成常见的 K/M/G/T 单位。
+// 但在打印处使用格式化限制宽度为 5 个字符（右对齐）。这里生成常见的 K/M/G/T 单位。
 fn human_readable(size: u64) -> String {
     const K: f64 = 1024.0;
     let s = size as f64;
