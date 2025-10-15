@@ -43,9 +43,10 @@ cargo build --release
 - Linux:
 
 ```bash
-sudo cp target/release/rt /usr/share/rt
-sudo cp -r target/release/locales /usr/share/rt/locales
-sudo ln -s /usr/share/rt/rt /usr/local/bin/rt
+sudo mkdir -p /opt/rt
+sudo cp target/release/rt /opt/rt/rt
+sudo cp -r target/release/locales /opt/rt/locales
+sudo ln -s /opt/rt/rt /usr/local/bin/rt
 ```
 
 ## 使用方法
