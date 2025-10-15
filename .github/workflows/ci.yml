@@ -35,6 +35,8 @@ jobs:
         path: |
           target/release/rt
           target/release/locales
+          install.sh
+          uninstall.sh
 
   ci-windows:
     runs-on: windows-latest
