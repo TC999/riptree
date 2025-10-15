@@ -11,6 +11,7 @@ pub struct Args {
     pub path: String,
     pub level: Option<usize>, // 添加 level 字段
     pub show_bytes: bool, // 添加 show_bytes 字段
+    pub show_human: bool, // 添加 show_human 字段
 }
 
 pub fn parse_args() -> Args {
@@ -24,6 +25,7 @@ pub fn parse_args() -> Args {
     let mut path = None;
     let mut level = None; // 初始化 level 字段
     let mut show_bytes = false; // 初始化 show_bytes 字段
+    let mut show_human = false; // 初始化 show_human 字段
 
     for arg in args.iter().skip(1) {
         if arg.starts_with("--LANG=") {
@@ -76,6 +78,8 @@ pub fn parse_args() -> Args {
             report = false;
         } else if arg == "-s" {
             show_bytes = true;
+        } else if arg == "-h" {
+            show_human = true;
         } else if arg == "--version" {
             println!("RipTree v{}", env!("CARGO_PKG_VERSION"));
             std::process::exit(0);
@@ -111,6 +115,7 @@ pub fn parse_args() -> Args {
         path: path.unwrap_or_default(),
         level, // 返回解析的 level
         show_bytes, // 返回解析的 show_bytes
+        show_human, // 返回解析的 show_human
     }
 }
 

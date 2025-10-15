@@ -1,7 +1,7 @@
 use std::fs;
 use std::path::Path;
 use fluent::FluentArgs;
-use crate::{SHOW_HIDDEN, ONLY_DIRS, IGNORE_PATTERNS, PRUNE, REPORT, SHOW_BYTES};
+use crate::{SHOW_HIDDEN, ONLY_DIRS, IGNORE_PATTERNS, PRUNE, REPORT, SHOW_BYTES, SHOW_HUMAN};
 use crate::prune::is_dir_pruned;
 use crate::i18n::I18n; // 新增：引入 i18n 模块
 
@@ -109,7 +109,15 @@ fn print_tree_count(
             // 连接符直接用原始字符串，不做国际化
             let connector = if is_last { "└── " } else { "├── " };
             unsafe {
-                if SHOW_BYTES && !entry.path().is_dir() {
+                if SHOW_HUMAN && !entry.path().is_dir() {
+                    let size: u64 = match entry.metadata() {
+                        Ok(m) => m.len(),
+                        Err(_) => 0,
+                    };
+                    let human = human_readable(size);
+                    // 固定 4 宽度显示（如 " 805", "1.5K"）
+                    println!("{}{}[{:>4}]  {}", prefix, connector, human, file_name);
+                } else if SHOW_BYTES && !entry.path().is_dir() {
                     // 获取字节大小，读取元数据失败时使用 0
                     let size: u64 = match entry.metadata() {
                         Ok(m) => m.len(),
@@ -135,5 +143,24 @@ fn print_tree_count(
                 *total_files += 1;
             }
         }
+    }
+}
+
+// human_readable: 将字节数转换为简短字符串，保留一位小数。返回值长度可能超过 4（如 "1024.0K"），
+// 但在打印处使用格式化限制宽度为 4 个字符（右对齐）。这里生成常见的 K/M/G/T 单位。
+fn human_readable(size: u64) -> String {
+    const K: f64 = 1024.0;
+    let s = size as f64;
+    if s < K {
+        // 直接显示整数
+        format!("{}", size)
+    } else if s < K * K {
+        format!("{:.1}K", s / K)
+    } else if s < K * K * K {
+        format!("{:.1}M", s / (K * K))
+    } else if s < K * K * K * K {
+        format!("{:.1}G", s / (K * K * K))
+    } else {
+        format!("{:.1}T", s / (K * K * K * K))
     }
 }
