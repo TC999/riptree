@@ -3,13 +3,12 @@ use std::path::Path;
 use fluent::FluentArgs;
 use crate::{SHOW_HIDDEN, ONLY_DIRS, IGNORE_PATTERNS, PRUNE, REPORT, SHOW_BYTES, SHOW_HUMAN};
 use crate::prune::is_dir_pruned;
-use crate::i18n::I18n; // 新增：引入 i18n 模块
+use crate::i18n::I18n;
 
 pub fn print_tree(path: &Path, prefix: String, i18n: &I18n, level: Option<usize>) {
     let mut total_dirs = 0;
     let mut total_files = 0;
     print_tree_count(path, prefix, &mut total_dirs, &mut total_files, i18n, level, 0);
-    // 输出统计信息，使用 Fluent 国际化
     let mut args = FluentArgs::new();
     args.set("total_dirs", total_dirs);
     args.set("total_files", total_files);
@@ -127,6 +126,14 @@ fn print_tree_count(
                     println!("{}{}[{:>11}]  {}", prefix, connector, size, file_name);
                 } else {
                     println!("{}{}{}", prefix, connector, file_name);
+                }
+
+                if let Ok(metadata) = fs::symlink_metadata(&entry.path()) {
+                    if metadata.file_type().is_symlink() {
+                        if let Ok(target) = fs::read_link(&entry.path()) {
+                            println!("{}   -> {}", prefix, target.display());
+                        }
+                    }
                 }
             }
 
