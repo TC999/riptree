@@ -125,15 +125,15 @@ fn print_tree_count(
                     // 固定宽度为 11 位（保持与示例一致），两位空格分隔
                     println!("{}{}[{:>11}]  {}", prefix, connector, size, file_name);
                 } else {
-                    println!("{}{}{}", prefix, connector, file_name);
-                }
-
-                if let Ok(metadata) = fs::symlink_metadata(&entry.path()) {
-                    if metadata.file_type().is_symlink() {
-                        if let Ok(target) = fs::read_link(&entry.path()) {
-                            println!("{}   -> {}", prefix, target.display());
+                    if let Ok(metadata) = fs::symlink_metadata(&entry.path()) {
+                        if metadata.file_type().is_symlink() {
+                            if let Ok(target) = fs::read_link(&entry.path()) {
+                                println!("{}{}{} -> {}", prefix, connector, file_name, target.display());
+                                continue;
+                            }
                         }
                     }
+                    println!("{}{}{}", prefix, connector, file_name);
                 }
             }
 
