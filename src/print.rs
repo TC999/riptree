@@ -4,7 +4,7 @@ use fluent::FluentArgs;
 use crate::{SHOW_HIDDEN, ONLY_DIRS, IGNORE_PATTERNS, PRUNE, REPORT, SHOW_BYTES, SHOW_HUMAN};
 use crate::prune::is_dir_pruned;
 use crate::i18n::I18n;
-use crate::color::{self, colorize};
+use crate::color::colorize;
 
 pub fn print_tree(path: &Path, prefix: String, i18n: &I18n, level: Option<usize>) {
     let mut total_dirs = 0;
@@ -134,7 +134,8 @@ fn print_tree_count(
                             }
                         }
                     }
-                    let colorized_name = colorize(&file_name);
+                    // Apply colorization to file and directory names.
+                    let colorized_name = colorize(&entry.path(), &file_name);
                     println!("{}{}{}", prefix, connector, colorized_name);
                 }
             }
