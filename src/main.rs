@@ -4,6 +4,7 @@ mod args;
 mod prune;
 mod i18n;
 mod ignore;
+mod color;
 
 // 是否显示隐藏文件
 static mut SHOW_HIDDEN: bool = false;
