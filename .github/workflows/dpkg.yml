@@ -12,8 +12,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: 编译
-        run: cargo build --release
+      #- name: 编译
+      #  run: cargo build --release
       - name: 安装 cargo-deb
         run: cargo install cargo-deb
       - name: 打包 Debian 包

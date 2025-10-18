@@ -41,6 +41,25 @@ jobs:
           target/release/install.sh
           target/release/uninstall.sh
 
+  build-dpkg:
+    name: 构建 Debian 包
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v4
+    #- name: 编译
+    #  run: cargo build --release
+    - name: 安装 cargo-deb
+      run: cargo install cargo-deb
+    - name: 打包 Debian 包
+      run: cargo deb
+    - name: 上传
+      uses: actions/upload-artifact@v4.6.2
+      with:
+        name: rt-debian
+        path: |
+          target/debian/*.deb
+
   windows:
     runs-on: windows-2022
 
@@ -58,7 +77,7 @@ jobs:
 
   release:
     name: 发行
-    needs: [linux, windows]
+    needs: [linux, windows, build-dpkg]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -76,6 +95,9 @@ jobs:
         run: |
           cd rt-windows && zip -r "../rt-windows.zip" .
 
+      - name: 移动文件(Debian 包)
+        run: |
+          mv rt-debian/*.deb .
 
       - name: 自动发布发行版
         uses: softprops/action-gh-release@v2
@@ -87,3 +109,4 @@ jobs:
           files: |
             rt-linux.zip
             rt-windows.zip
+            *.deb
