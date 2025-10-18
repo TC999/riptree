@@ -72,7 +72,26 @@ impl ColorTable {
         // symlink
         if let Ok(md) = std::fs::symlink_metadata(path) {
             if md.file_type().is_symlink() {
-                return self.map.get("ln").cloned();
+                // Check if ln=target is enabled
+                if let Some(target_color) = self.map.get("ln=target") {
+                    if let Ok(target_path) = std::fs::read_link(path) {
+                        if let Ok(target_md) = std::fs::metadata(&target_path) {
+                            // Determine target type and return corresponding color
+                            if target_md.is_dir() {
+                                return self.map.get("di").cloned();
+                            }
+                            #[cfg(unix)]
+                            {
+                                use std::os::unix::fs::PermissionsExt;
+                                if target_md.permissions().mode() & 0o111 != 0 {
+                                    return self.map.get("ex").cloned();
+                                }
+                            }
+                            return self.map.get("fi").cloned(); // Fallback to file color
+                        }
+                    }
+                }
+                return self.map.get("ln").cloned(); // Default symlink color
             }
             // executable
             #[cfg(unix)]
