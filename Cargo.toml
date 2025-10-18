@@ -1,5 +1,7 @@
 [package]
 name = "riptree"
+description = "A fast and lightweight file tree viewer with multi-language support."
+license = "GPL-3.0"
 version = "0.1.3"
 edition = "2021"
 
@@ -24,6 +26,7 @@ assets = [
   ["target/release/locales/*", "/opt/rt/locales/", "0644"],
   # 可选：把 README 放到文档目录
   ["README.md", "/usr/share/doc/riptree/README.md", "0644"],
+  ["LICENSE", "/usr/share/doc/riptree/LICENSE", "0644"],
 ]
 ## 指定安装/卸载脚本（会在包内包含这些脚本并在安装/卸载时执行）
 #scripts = { postinst = "debian/postinst", prerm = "debian/prerm" }
