@@ -12,6 +12,8 @@ pub struct Args {
     pub level: Option<usize>, // 添加 level 字段
     pub show_bytes: bool, // 添加 show_bytes 字段
     pub show_human: bool, // 添加 show_human 字段
+    pub include_patterns: Option<Vec<String>>,
+    pub exclude_patterns: Option<Vec<String>>,
 }
 
 pub fn parse_args() -> Args {
@@ -26,6 +28,8 @@ pub fn parse_args() -> Args {
     let mut level = None; // 初始化 level 字段
     let mut show_bytes = false; // 初始化 show_bytes 字段
     let mut show_human = false; // 初始化 show_human 字段
+    let mut include_patterns = None;
+    let mut exclude_patterns = None;
 
     for arg in args.iter().skip(1) {
         if arg.starts_with("--LANG=") {
@@ -100,6 +104,12 @@ pub fn parse_args() -> Args {
                 eprintln!("{}", i18n.text("level-invalid", None));
                 std::process::exit(1);
             }
+        } else if arg.starts_with("-P=") {
+            let pattern = arg[3..].to_string();
+            include_patterns = Some(pattern.split(',').map(|s| s.to_string()).collect());
+        } else if arg.starts_with("-I=") {
+            let pattern = arg[3..].to_string();
+            exclude_patterns = Some(pattern.split(',').map(|s| s.to_string()).collect());
         } else if !arg.starts_with('-') && path.is_none() {
             path = Some(arg.clone());
         }
@@ -116,6 +126,8 @@ pub fn parse_args() -> Args {
         level, // 返回解析的 level
         show_bytes, // 返回解析的 show_bytes
         show_human, // 返回解析的 show_human
+        include_patterns,
+        exclude_patterns,
     }
 }
 

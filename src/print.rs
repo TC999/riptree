@@ -6,10 +6,10 @@ use crate::prune::is_dir_pruned;
 use crate::i18n::I18n;
 use crate::color::colorize;
 
-pub fn print_tree(path: &Path, prefix: String, i18n: &I18n, level: Option<usize>) {
+pub fn print_tree(path: &Path, prefix: String, i18n: &I18n, level: Option<usize>, args: &crate::args::Args) {
     let mut total_dirs = 0;
     let mut total_files = 0;
-    print_tree_count(path, prefix, &mut total_dirs, &mut total_files, i18n, level, 0);
+    print_tree_count(path, prefix, &mut total_dirs, &mut total_files, i18n, level, 0, args);
     let mut args = FluentArgs::new();
     args.set("total_dirs", total_dirs);
     args.set("total_files", total_files);
@@ -32,6 +32,7 @@ fn print_tree_count(
     i18n: &I18n,
     level: Option<usize>,
     current_level: usize,
+    args: &crate::args::Args,
 ) {
     if let Some(max_level) = level {
         if current_level >= max_level {
@@ -66,8 +67,8 @@ fn print_tree_count(
                 entries = entries
                     .into_iter()
                     .filter(|e| {
-                        let name = e.file_name();
-                        let name = name.to_string_lossy();
+                        let file_name = e.file_name();
+                        let name = file_name.to_string_lossy().to_string();
                         // 只做简单的后缀/前缀/全名匹配
                         !patterns.iter().any(|pat| {
                             if pat.ends_with('/') {
@@ -84,6 +85,26 @@ fn print_tree_count(
                                 pat == &name
                             }
                         })
+                    })
+                    .collect();
+            }
+            if let Some(patterns) = &args.include_patterns {
+                entries = entries
+                    .into_iter()
+                    .filter(|e| {
+                        let binding = e.file_name();
+                        let name = binding.to_string_lossy();
+                        patterns.iter().any(|pat| name.contains(pat))
+                    })
+                    .collect();
+            }
+            if let Some(patterns) = &args.exclude_patterns {
+                entries = entries
+                    .into_iter()
+                    .filter(|e| {
+                        let binding = e.file_name();
+                        let name = binding.to_string_lossy();
+                        !patterns.iter().any(|pat| name.contains(pat))
                     })
                     .collect();
             }
@@ -148,7 +169,7 @@ fn print_tree_count(
 
             if entry.path().is_dir() {
                 *total_dirs += 1;
-                print_tree_count(&entry.path(), new_prefix, total_dirs, total_files, i18n, level, current_level + 1);
+                print_tree_count(&entry.path(), new_prefix, total_dirs, total_files, i18n, level, current_level + 1, args);
             } else {
                 *total_files += 1;
             }
