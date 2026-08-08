@@ -1,4 +1,5 @@
 # RipTree（RT）
+## 本仓库已弃用，现转移至 https://github.com/TC999/rustree
 
 > 原版 `tree` 项目地址：[https://github.com/Old-Man-Programmer/tree](https://github.com/Old-Man-Programmer/tree)
 
