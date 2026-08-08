@@ -36,5 +36,5 @@ jobs:
           name: riptree-x64-win7
           path: |
             target\x86_64-win7-windows-msvc\release\locales
-            target\x86_64-win7-windows-msvc\release\riptree.exe
-            target\x86_64-win7-windows-msvc\release\riptree.pdb
+            target\x86_64-win7-windows-msvc\release\rt.exe
+            target\x86_64-win7-windows-msvc\release\rt.pdb
